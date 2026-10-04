@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" fill="none">
+  <defs>
+    <radialGradient id="halo"><stop stop-color="#1B685E" stop-opacity=".45"/><stop offset=".5" stop-color="#13504B" stop-opacity=".18"/><stop offset="1" stop-color="#0B1C25" stop-opacity="0"/></radialGradient>
+    <linearGradient id="wire" x1="120" y1="80" x2="500" y2="500"><stop stop-color="#D6FFF3" stop-opacity=".72"/><stop offset=".5" stop-color="#6AF0D0" stop-opacity=".5"/><stop offset="1" stop-color="#70A8B1" stop-opacity=".18"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="5"/></filter>
+    <clipPath id="sphere"><circle cx="300" cy="300" r="185"/></clipPath>
+  </defs>
+  <circle cx="300" cy="300" r="290" fill="url(#halo)"/>
+  <circle cx="300" cy="300" r="190" stroke="#81F7D9" stroke-opacity=".14"/>
+  <circle cx="300" cy="300" r="185" stroke="url(#wire)" stroke-opacity=".48"/>
+  <g clip-path="url(#sphere)" stroke="url(#wire)" stroke-width="1.2" opacity=".55">
+    <ellipse cx="300" cy="300" rx="55" ry="185"/>
+    <ellipse cx="300" cy="300" rx="120" ry="185"/>
+    <ellipse cx="300" cy="300" rx="185" ry="68"/>
+    <ellipse cx="300" cy="300" rx="185" ry="135"/>
+    <path d="M115 300h370M135 215h330M135 385h330"/>
+    <path d="M160 180 444 420M445 180 158 420M225 130 382 470M375 130 218 470" opacity=".35"/>
+  </g>
+  <g stroke="#81F7D9" stroke-opacity=".35" stroke-width="1.2">
+    <ellipse cx="300" cy="300" rx="252" ry="104" transform="rotate(-32 300 300)"/>
+    <ellipse cx="300" cy="300" rx="252" ry="104" transform="rotate(53 300 300)"/>
+  </g>
+  <g fill="#8BFFE0">
+    <circle cx="197" cy="145" r="4"/><circle cx="197" cy="145" r="14" opacity=".32" filter="url(#glow)"/>
+    <circle cx="407" cy="442" r="4"/><circle cx="407" cy="442" r="14" opacity=".32" filter="url(#glow)"/>
+    <circle cx="468" cy="230" r="3"/><circle cx="146" cy="372" r="3"/>
+    <circle cx="300" cy="115" r="3"/><circle cx="300" cy="485" r="3"/>
+    <circle cx="238" cy="289" r="2"/><circle cx="370" cy="358" r="2"/>
+  </g>
+  <circle cx="300" cy="300" r="10" fill="#8BFFE0" opacity=".28" filter="url(#glow)"/>
+  <circle cx="300" cy="300" r="2.5" fill="#C7FFF0"/>
+</svg>
