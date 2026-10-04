@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import NoteCard from '../../components/NoteCard.astro';
+const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="All notes — Hexfield" description="Browse the Hexfield field notes on Active Directory and Linux fundamentals.">
+  <section class="page-intro wrap"><div class="eyebrow"><span class="status-dot"></span> THE LIBRARY / FIELD NOTES</div><h1>Every note.<br /><em>One map.</em></h1><p>Short, connected explanations of the concepts that make systems make sense.</p></section>
+  <section class="wrap library-section"><div class="library-tools"><span>EXPLORE THE LIBRARY <b>↘</b></span><div class="filter-group" role="group" aria-label="Filter notes"><button class="filter-button active" data-filter="all" aria-pressed="true">All <sup>04</sup></button><button class="filter-button" data-filter="Active Directory" aria-pressed="false">Active Directory <sup>02</sup></button><button class="filter-button" data-filter="Linux" aria-pressed="false">Linux <sup>02</sup></button></div></div><div class="notes-grid library-grid">{notes.map((note, index) => <div class="filter-item" data-track={note.data.track}><NoteCard note={note} index={index} /></div>)}</div></section>
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-button');
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      buttons.forEach((item) => { item.classList.toggle('active', item === button); item.setAttribute('aria-pressed', String(item === button)); });
+      document.querySelectorAll<HTMLElement>('.filter-item').forEach((item) => { item.hidden = filter !== 'all' && item.dataset.track !== filter; });
+    }));
+  </script>
+</Base>

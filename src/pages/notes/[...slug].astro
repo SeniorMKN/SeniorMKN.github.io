@@ -1,0 +1,21 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+export async function getStaticPaths() {
+  const entries = await getCollection('notes');
+  return entries.map((note) => ({ params: { slug: note.id }, props: { note } }));
+}
+const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
+const { note } = Astro.props;
+const { Content, headings } = await render(note);
+const index = notes.findIndex((item) => item.id === note.id);
+const next = notes[index + 1];
+---
+<Base title={`${note.data.title} — Hexfield`} description={note.data.description}>
+  <article class="article wrap">
+    <div class="article-breadcrumb"><a href="/notes/">FIELD NOTES</a><span>/</span><span>{note.data.track.toUpperCase()}</span><span>/</span><span>{String(index + 1).padStart(2, '0')}</span></div>
+    <header class="article-header"><div class="article-label"><span class:list={['track-pill', note.data.track === 'Linux' && 'linux']}>{note.data.track}</span><span>FIELD NOTE {String(index + 1).padStart(2, '0')}</span></div><h1>{note.data.title}<span class="title-stop">.</span></h1><p>{note.data.description}</p><div class="article-facts"><span>{note.data.level}</span><span>{note.data.readingTime}</span><span>UPDATED {note.data.published.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()}</span></div></header>
+    <div class="article-grid"><aside class="article-sidebar"><span>ON THIS PAGE</span><nav aria-label="On this page">{headings.filter((heading) => heading.depth === 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav><a class="sidebar-back" href="/roadmap/">← View roadmap</a></aside><div class="article-content prose"><Content /><div class="article-endmark">✳ <span>END OF FIELD NOTE</span></div></div></div>
+    <div class="article-next"><span>KEEP EXPLORING</span>{next ? <a href={`/notes/${next.id}/`}><strong>{next.data.title}</strong><span aria-hidden="true">↗</span></a> : <a href="/roadmap/"><strong>Back to the roadmap</strong><span aria-hidden="true">↗</span></a>}</div>
+  </article>
+</Base>
