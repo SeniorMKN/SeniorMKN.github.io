@@ -1,0 +1,9 @@
+---
+const { note, index = 0 } = Astro.props;
+const number = String(index + 1).padStart(2, '0');
+---
+<a class="note-card" href={`/notes/${note.id}/`}>
+  <div class="note-card-top"><span class="card-index">{number} / FIELD NOTE</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+  <div class="note-card-body"><span class:list={['track-pill', note.data.track === 'Linux' && 'linux']}>{note.data.track}</span><h3>{note.data.title}</h3><p>{note.data.description}</p></div>
+  <div class="note-card-bottom"><span>{note.data.level}</span><span>{note.data.readingTime}</span></div>
+</a>

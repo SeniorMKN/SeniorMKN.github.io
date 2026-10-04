@@ -1,0 +1,83 @@
+<div class="hero-scene" aria-hidden="true"><canvas id="hero-canvas"></canvas><div class="scene-vignette"></div><div class="scene-label scene-label-top">SYS / 001 <span>●</span> ONLINE</div><div class="scene-label scene-label-bottom">OBSERVE THE SYSTEM</div></div>
+<script>
+  import * as THREE from 'three';
+
+  const canvas = document.querySelector<HTMLCanvasElement>('#hero-canvas');
+  const host = canvas?.parentElement;
+  if (canvas && host && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.7));
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+    camera.position.z = 8.7;
+
+    const core = new THREE.Group();
+    scene.add(core);
+    const globe = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(2.22, 3),
+      new THREE.MeshBasicMaterial({ color: 0x69f4d0, wireframe: true, transparent: true, opacity: 0.18 })
+    );
+    core.add(globe);
+    const inner = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(1.76, 2),
+      new THREE.MeshBasicMaterial({ color: 0xb9d4ee, wireframe: true, transparent: true, opacity: 0.19 })
+    );
+    core.add(inner);
+    const points: number[] = [];
+    const colors: number[] = [];
+    const colorA = new THREE.Color(0x61efd0);
+    const colorB = new THREE.Color(0xc2daf0);
+    for (let i = 0; i < 110; i++) {
+      const theta = Math.acos(2 * Math.random() - 1);
+      const phi = Math.random() * Math.PI * 2;
+      const radius = 2.23 + (Math.random() - 0.5) * 0.14;
+      points.push(radius * Math.sin(theta) * Math.cos(phi), radius * Math.cos(theta), radius * Math.sin(theta) * Math.sin(phi));
+      const c = colorA.clone().lerp(colorB, Math.random());
+      colors.push(c.r, c.g, c.b);
+    }
+    const pointGeometry = new THREE.BufferGeometry();
+    pointGeometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+    pointGeometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    core.add(new THREE.Points(pointGeometry, new THREE.PointsMaterial({ size: 0.055, vertexColors: true, sizeAttenuation: true })));
+
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(2.87, 0.006, 3, 130),
+      new THREE.MeshBasicMaterial({ color: 0x74f1d4, transparent: true, opacity: 0.5 })
+    );
+    ring.rotation.set(0.8, 0.15, 0.5);
+    core.add(ring);
+    const ring2 = ring.clone();
+    ring2.rotation.set(-0.4, 1.05, 0.2);
+    ring2.scale.setScalar(0.94);
+    core.add(ring2);
+
+    const resize = () => {
+      const { width, height } = host.getBoundingClientRect();
+      renderer.setSize(width, height, false);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      core.scale.setScalar(width < 540 ? 0.8 : 1);
+    };
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(host);
+    let pointerX = 0, pointerY = 0;
+    host.addEventListener('pointermove', (event) => {
+      const rect = host.getBoundingClientRect();
+      pointerX = (event.clientX - rect.left) / rect.width - 0.5;
+      pointerY = (event.clientY - rect.top) / rect.height - 0.5;
+    });
+    let frame = 0;
+    const animate = () => {
+      frame += 0.006;
+      core.rotation.y += 0.0017;
+      core.rotation.x += (pointerY * 0.25 - core.rotation.x) * 0.018;
+      core.rotation.z += (pointerX * 0.18 - core.rotation.z) * 0.018;
+      inner.rotation.y = -frame * 0.65;
+      ring.rotation.z += 0.0008;
+      renderer.render(scene, camera);
+    };
+    renderer.setAnimationLoop(animate);
+    document.addEventListener('visibilitychange', () => renderer.setAnimationLoop(document.hidden ? null : animate));
+  }
+</script>
