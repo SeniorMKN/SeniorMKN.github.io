@@ -6,3 +6,4 @@
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 .skip-link{position:absolute;z-index:100;top:-100px;left:18px;background:#76edca;color:#071510;padding:12px 16px;border-radius:3px;font-weight:700}.skip-link:focus{top:14px}a:focus-visible,button:focus-visible{outline:2px solid #7af1d1;outline-offset:4px}
 @media(max-width:480px){.site-header{height:auto;min-height:76px;padding-top:21px;padding-bottom:16px;gap:18px}.nav{width:100%;margin-left:0;justify-content:space-between}.hero{padding-top:72px}}
+.hero-scene:before{content:'';position:absolute;inset:0;background:url('/hero-orb.svg') center/80% auto no-repeat;opacity:.92}.hero-scene.is-animated:before{opacity:.12}
