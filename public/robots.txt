@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://seniormkn.github.io/sitemap-index.xml
