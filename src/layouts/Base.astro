@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+
+const {
+  title = 'Hexfield — Security, mapped.',
+  description = 'A structured field guide to offensive security fundamentals.',
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#080d13" />
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="site-shell">
+      <header class="site-header wrap">
+        <a class="brand" href="/" aria-label="Hexfield home"><span class="brand-mark" aria-hidden="true">✳</span><span>HEXFIELD<span class="brand-period">.</span></span></a>
+        <nav class="nav" aria-label="Main navigation">
+          <a href="/roadmap/">Roadmap</a>
+          <a href="/notes/">All notes</a>
+          <a href="/about/">About</a>
+        </nav>
+        <a class="header-cta" href="/notes/">Explore notes <span aria-hidden="true">↗</span></a>
+      </header>
+      <main id="main-content"><slot /></main>
+      <footer class="site-footer wrap">
+        <div><a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true">✳</span><span>HEXFIELD<span class="brand-period">.</span></span></a><p>Security, mapped. Curiosity, documented.</p></div>
+        <div class="footer-links"><a href="/roadmap/">Roadmap</a><a href="/notes/">Notes</a><a href="/about/">About</a><a href="https://github.com/SeniorMKN" target="_blank" rel="noopener noreferrer">GitHub ↗</a></div>
+        <div class="footer-bottom"><span>© {new Date().getFullYear()} Hexfield</span><span>For authorized learning and research.</span></div>
+      </footer>
+    </div>
+  </body>
+</html>
