@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
+const ad = notes.filter((n) => n.data.track === 'Active Directory');
+const linux = notes.filter((n) => n.data.track === 'Linux');
+---
+<Base title="Roadmap — Hexfield" description="A guided path through Active Directory and Linux security fundamentals.">
+  <section class="page-intro wrap"><div class="eyebrow"><span class="status-dot"></span> THE MAP / YOUR STARTING POINT</div><h1>A path through<br /><em>the system.</em></h1><p>Build a foundation in identity, authentication, permissions, and observability. Read in order or follow your curiosity.</p></section>
+  <section class="roadmap wrap"><div class="roadmap-top"><span>THE LEARNING PATH</span><span>02 TRACKS / 04 NOTES</span></div><div class="roadmap-track" id="active-directory"><div class="roadmap-track-header"><span>01 / IDENTITY SYSTEMS</span><h2>Active Directory<span class="title-stop">.</span></h2><p>Start with the directory's objects and boundaries, then see how Kerberos carries identity across a domain.</p></div><div class="roadmap-steps">{ad.map((note, i) => <a href={`/notes/${note.id}/`} class="roadmap-step"><span class="step-number">{String(i + 1).padStart(2, '0')}</span><div><span class="step-meta">{note.data.level} / {note.data.readingTime}</span><h3>{note.data.title}</h3><p>{note.data.description}</p></div><span class="step-arrow" aria-hidden="true">↗</span></a>)}</div></div><div class="roadmap-track" id="linux"><div class="roadmap-track-header"><span>02 / OPERATING SYSTEMS</span><h2>Linux Environment<span class="title-stop">.</span></h2><p>Understand who can do what, then learn to read a running system from its processes, services, and logs.</p></div><div class="roadmap-steps">{linux.map((note, i) => <a href={`/notes/${note.id}/`} class="roadmap-step"><span class="step-number">{String(i + 1).padStart(2, '0')}</span><div><span class="step-meta">{note.data.level} / {note.data.readingTime}</span><h3>{note.data.title}</h3><p>{note.data.description}</p></div><span class="step-arrow" aria-hidden="true">↗</span></a>)}</div></div></section>
+  <section class="roadmap-note wrap"><span>WHAT COMES NEXT?</span><p>This is the foundation. Future tracks can connect networking, web applications, privilege escalation, and defensive visibility to the same map.</p></section>
+</Base>
