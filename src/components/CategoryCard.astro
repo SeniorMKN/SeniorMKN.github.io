@@ -1,0 +1,7 @@
+---
+import Icon from './Icon.astro';
+import { questions } from '../data/academy';
+const { category } = Astro.props;
+const ids=questions.filter(q=>q.category===category.id).map(q=>q.id);
+---
+<a class="category-card" href={`/academy/interview-notes/${category.id}/`} data-category-ids={ids.join(',')}><div class="category-top"><span class="icon-tile"><Icon name={category.icon}/></span><span class="mono">{String(ids.length).padStart(2,'0')} QUESTIONS</span><span class="category-arrow">↗</span></div><h3>{category.name}</h3><p>{category.description}</p><div class="category-bottom"><span>{category.level}</span><span data-category-count>0 / {ids.length} learned</span></div><div class="progress-track"><span data-category-fill></span></div></a>

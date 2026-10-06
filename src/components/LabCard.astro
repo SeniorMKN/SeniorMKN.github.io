@@ -1,0 +1,11 @@
+---
+import Icon from './Icon.astro';
+const { lab, index = 0 } = Astro.props;
+---
+<a href={`/academy/ad-sets/${lab.slug}/`} class:list={['lab-card',lab.accent]}>
+  <div class="lab-top"><span class="mono">SET / 0{index+1}</span><span class:list={['access-badge',lab.tier==='PRO' && 'pro']}>{lab.tier==='PRO' && <Icon name="lock" size={11}/>} {lab.tier} · PLANNED</span></div>
+  <div class="mini-topology" aria-hidden="true"><svg viewBox="0 0 300 120"><path d="M40 80 100 30 160 80 230 35M160 80l105 25"/><circle cx="40" cy="80" r="7"/><rect x="89" y="19" width="22" height="22" rx="4"/><circle cx="160" cy="80" r="10"/><rect x="219" y="24" width="22" height="22" rx="4"/><circle cx="265" cy="105" r="6"/><text x="22" y="105">USER</text><text x="84" y="10">WS01</text><text x="143" y="106">SVC</text><text x="217" y="16">DC01</text></svg></div>
+  <div class="lab-name"><h3>{lab.name}</h3><span aria-hidden="true">↗</span></div><p>{lab.subtitle}</p>
+  <div class="lab-meta"><span class={`difficulty ${lab.level.toLowerCase()}`}><i></i>{lab.level}</span><span><Icon name="server" size={13}/>{lab.machines} hosts*</span><span><Icon name="clock" size={13}/>{lab.time}*</span></div>
+  <div class="techniques">{lab.techniques.map((t: string)=><span>{t}</span>)}</div><div class="lab-foot"><span><i></i> Blueprint preview</span><span>View environment →</span></div>
+</a>

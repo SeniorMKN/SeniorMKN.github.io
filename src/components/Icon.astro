@@ -1,0 +1,10 @@
+---
+const { name = 'network', size = 22 } = Astro.props;
+const paths: Record<string,string> = {
+ network:'M12 3v6m-7 9v-5h14v5M5 13h14M9 3h6v6H9zM2 18h6v4H2zM16 18h6v4h-6z',
+ terminal:'M4 6l6 6-6 6m9 0h7', globe:'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20M2 12h20M12 2c-5 5-5 15 0 20M12 2c5 5 5 15 0 20',
+ route:'M5 3v12a5 5 0 0 0 10 0V6m-4 4 4-4 4 4M2 3h6', server:'M4 3h16v7H4zM4 14h16v7H4zM7 6h1m-1 11h1m4-11h5m-5 11h5',
+ target:'M12 3a9 9 0 1 0 9 9M12 7a5 5 0 1 0 5 5M12 12l9-9m-5 0h5v5', arrow:'M5 12h14m-6-6 6 6-6 6', lock:'M6 10h12v11H6zM8 10V6a4 4 0 0 1 8 0v4', book:'M3 4h6l3 2 3-2h6v16h-6l-3 2-3-2H3zM12 6v16', check:'m5 12 4 4L19 6', user:'M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8M4 22v-3a8 8 0 0 1 16 0v3', key:'M8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10m4 9 9 9m-5-5 3-3m-6 0 3-3', clock:'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20M12 6v6l4 3', star:'m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z', bolt:'m13 2-9 12h7l-1 8 10-13h-7z', search:'M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14m5 12 6 6'
+};
+---
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={paths[name] || paths.network}/></svg>

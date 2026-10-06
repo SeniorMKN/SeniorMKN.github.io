@@ -1,0 +1,16 @@
+---
+import { attackSteps } from '../data/academy';
+---
+<div class="attack-graph" data-attack-graph><div class="graph-toolbar"><span><i class="live-dot"></i> ATTACK PATH / ILLUSTRATIVE LAB</span><button class="subtle-button" data-graph-play aria-pressed="false">Play path ▷</button></div><div class="graph-scroll"><div class="graph-canvas"><svg viewBox="0 0 1000 215" role="img" aria-label="Illustrative path from a domain user through a service account, workstation and delegated identity to a privileged group"><defs><marker id="graph-arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0 6 3 0 6" fill="#65dfb0"/></marker></defs>{[0,1,2,3].map(i=><g class:list={['graph-edge',i===0&&'selected']} data-edge={i}><path d={`M${130+i*195} 108 H${245+i*195}`} marker-end="url(#graph-arrow)"/><text x={188+i*195} y="86" text-anchor="middle">{attackSteps[i].relation}</text></g>)}{['USER','SVC_WEB','WS01','OPS.USER','DOMAIN ADMINS'].map((n,i)=><g class="graph-svg-node"><rect x={45+i*195} y="65" width="85" height="85" rx="16"/><path d={i===2?'M445 88h35v25h-35zm8 32h20':i===4?'m855 100 13-13 13 13-13 13z':`M${87+i*195} 87a8 8 0 1 0 0 16 8 8 0 0 0 0-16M${73+i*195} 124v-5a14 14 0 0 1 28 0v5`} /><text x={87+i*195} y="176" text-anchor="middle">{n}</text></g>)}</svg></div></div><div class="graph-steps" role="group" aria-label="Explore attack path relationships">{attackSteps.map((s,i)=><button class:list={i===0&&'active'} data-step={i} aria-pressed={i===0?'true':'false'} title={s.relation}><span>0{i+1}</span>{s.label}</button>)}</div><div class="graph-explanation" aria-live="polite">{attackSteps.map((s,i)=><div data-step-content={i} hidden={i!==0}><span class="relation-badge">{s.relation}</span><h3>{s.title}</h3><p>{s.detail}</p><small>VERIFY / {s.evidence}</small></div>)}</div></div>
+<script>
+document.querySelectorAll<HTMLElement>('[data-attack-graph]').forEach(root=>{
+ let current=0,timer:ReturnType<typeof setInterval>|undefined;
+ const play=root.querySelector<HTMLButtonElement>('[data-graph-play]')!;
+ const select=(i:number)=>{current=i;root.querySelectorAll<HTMLElement>('[data-step]').forEach((b,n)=>{b.classList.toggle('active',n===i);b.setAttribute('aria-pressed',String(n===i))});root.querySelectorAll<HTMLElement>('[data-step-content]').forEach((p,n)=>p.hidden=n!==i);root.querySelectorAll('[data-edge]').forEach((p,n)=>p.classList.toggle('selected',n===i))};
+ const stop=()=>{clearInterval(timer);timer=undefined;play.textContent='Play path ▷';play.setAttribute('aria-pressed','false')};
+ root.querySelectorAll<HTMLButtonElement>('[data-step]').forEach((b,i)=>b.addEventListener('click',()=>{stop();select(i)}));
+ play.addEventListener('click',()=>{if(timer){stop();return}play.textContent='Pause path Ⅱ';play.setAttribute('aria-pressed','true');timer=setInterval(()=>select((current+1)%4),4500)});
+ const observer=new IntersectionObserver(entries=>{if(!entries[0].isIntersecting)stop()});observer.observe(root);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});window.addEventListener('pagehide',()=>{stop();observer.disconnect()});window.addEventListener('pageshow',()=>observer.observe(root));
+});
+</script>

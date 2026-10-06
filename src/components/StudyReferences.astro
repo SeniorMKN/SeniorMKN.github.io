@@ -1,0 +1,11 @@
+---
+const { category }=Astro.props;
+const references:Record<string,[string,string][]>={
+ ad:[['MITRE ATT&CK · Kerberoasting','https://attack.mitre.org/techniques/T1558/003/'],['MITRE ATT&CK · AS-REP roasting','https://attack.mitre.org/techniques/T1558/004/']],
+ web:[['OWASP · Object-level access control','https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html'],['OWASP · CSRF prevention','https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html']],
+ linux:[['Linux man-pages · Path resolution','https://man7.org/linux/man-pages/man7/path_resolution.7.html']],
+ windows:[['Microsoft · Access tokens','https://learn.microsoft.com/en-us/windows/win32/secauthz/access-tokens'],['Microsoft · Service access rights','https://learn.microsoft.com/en-us/windows/win32/services/service-security-and-access-rights']]
+};
+const items=category==='practice'?Object.values(references).flat():references[category]||[];
+---
+{items.length>0&&<details class="study-references"><summary>Technical references <span>+</span></summary><ul>{items.map(([label,href])=><li><a href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a></li>)}</ul></details>}

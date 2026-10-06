@@ -1,0 +1,4 @@
+---
+const { kicker, title, href, link = 'Explore all' } = Astro.props;
+---
+<div class="section-heading product-heading"><div><div class="section-kicker">{kicker}</div><h2>{title}<span class="title-stop">.</span></h2></div>{href && <a class="text-link" href={href}>{link} <span aria-hidden="true">↗</span></a>}</div>
