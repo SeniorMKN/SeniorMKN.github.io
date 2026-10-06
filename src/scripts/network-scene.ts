@@ -17,7 +17,7 @@ export function mountNetwork(host:HTMLElement){
  const paths=[[4,2],[2,1],[1,0],[0,3],[4,0],[2,3]];const pulses:THREE.Mesh[]=[];
  paths.forEach(([a,b])=>{const geometry=new THREE.BufferGeometry().setFromPoints([positions[a],positions[b]]);geometries.push(geometry);const material=new THREE.LineBasicMaterial({color:0x579783,transparent:true,opacity:.48});materials.push(material);world.add(new THREE.Line(geometry,material));const pulse=mesh(new THREE.SphereGeometry(.035,8,6),mint);world.add(pulse);pulses.push(pulse)});
  const grid=new THREE.GridHelper(12,24,0x31554a,0x17342f);grid.position.y=-.65;world.add(grid);
- let selected=0,hover=-1,visible=true,disposed=false,raf=0,last=0,elapsed=0;const pointer=new THREE.Vector2(10,10),raycaster=new THREE.Raycaster();let aimX=0,aimY=0;
+ let selected=Number(host.querySelector<HTMLElement>('[data-scene-node][aria-pressed="true"]')?.dataset.sceneNode||0),hover=-1,visible=true,disposed=false,raf=0,last=0,elapsed=0;const pointer=new THREE.Vector2(10,10),raycaster=new THREE.Raycaster();let aimX=0,aimY=0;
  const label=host.querySelector<HTMLElement>('[data-scene-label]')!,buttons=Array.from(host.querySelectorAll<HTMLButtonElement>('[data-scene-node]'));
  const updateLabel=(index:number)=>{label.textContent=buttons[index].dataset.label!};const select=(e:Event)=>{selected=Number((e.currentTarget as HTMLElement).dataset.sceneNode);updateLabel(selected)};buttons.forEach(b=>b.addEventListener('click',select));
  const move=(e:PointerEvent)=>{const rect=canvas.getBoundingClientRect();pointer.set((e.clientX-rect.left)/rect.width*2-1,-((e.clientY-rect.top)/rect.height)*2+1);aimX=pointer.x*.2;aimY=pointer.y*.08};const leave=()=>{pointer.set(10,10);hover=-1;aimX=aimY=0;updateLabel(selected)};stage.addEventListener('pointermove',move);stage.addEventListener('pointerleave',leave);
@@ -29,3 +29,4 @@ export function mountNetwork(host:HTMLElement){
  function dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(raf);resizeObserver.disconnect();intersection.disconnect();document.removeEventListener('visibilitychange',visibility);stage.removeEventListener('pointermove',move);stage.removeEventListener('pointerleave',leave);canvas.removeEventListener('webglcontextlost',lost);buttons.forEach(b=>b.removeEventListener('click',select));geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());grid.geometry.dispose();(Array.isArray(grid.material)?grid.material:[grid.material]).forEach(m=>m.dispose());renderer.dispose();host.classList.remove('webgl-ready');status.textContent='Topology preview'}
  host.classList.add('webgl-ready');status.textContent='WebGL · interactive';start();return dispose;
 }
+

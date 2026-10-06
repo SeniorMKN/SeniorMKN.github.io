@@ -23,5 +23,5 @@ export function renderProgress(){
 }
 window.addEventListener('hexfield:progress',renderProgress);window.addEventListener('storage',e=>{if(e.key===key){try{state=clean(JSON.parse(e.newValue||'null'))}catch{state=fresh()}window.dispatchEvent(new Event('hexfield:progress'))}});renderProgress();
 window.addEventListener('pageshow',()=>{try{const saved=localStorage.getItem(key);if(saved!==null)state=clean(JSON.parse(saved))}catch{}renderProgress()});
-document.querySelectorAll('[data-reset-progress]').forEach(button=>button.addEventListener('click',()=>{if(confirm('Reset all Hexfield study progress, favorites, and review history on this device?')){state=fresh();save()}}));
+document.querySelectorAll<HTMLElement>('.progress-settings').forEach(root=>{const panel=root.querySelector<HTMLElement>('[data-reset-confirmation]')!,button=root.querySelector<HTMLButtonElement>('[data-reset-progress]')!;button.addEventListener('click',()=>{panel.hidden=false;button.hidden=true});root.querySelector('[data-reset-cancel]')?.addEventListener('click',()=>{panel.hidden=true;button.hidden=false;button.focus()});root.querySelector('[data-reset-confirm]')?.addEventListener('click',()=>{state=fresh();save();panel.hidden=true;button.hidden=false;button.focus()})});
 
