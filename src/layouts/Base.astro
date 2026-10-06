@@ -1,10 +1,10 @@
 ---
 import '../styles/global.css';
-import '../styles/academy.css';
+import '../styles/platform.css';
 
 const {
-  title = 'Hexfield — Security, mapped.',
-  description = 'A structured field guide to offensive security fundamentals.',
+  title = 'Hexfield — Learn. Break. Understand.',
+  description = 'Active Directory lab blueprints, technical field notes, and interactive cybersecurity interview preparation.',
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -30,12 +30,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <header class="site-header wrap">
         <a class="brand" href="/" aria-label="Hexfield home"><span class="brand-mark" aria-hidden="true">✳</span><span>HEXFIELD<span class="brand-period">.</span></span></a>
         <nav class="nav" aria-label="Main navigation">
-          <a href="/roadmap/">Roadmap</a>
-          <a href="/notes/">All notes</a>
-          <a href="/academy/">Academy</a>
-          <a href="/about/">About</a>
+          <a href="/academy/ad-sets/" aria-current={Astro.url.pathname.startsWith('/academy/ad-sets/')?'page':undefined}>Labs</a>
+          <a href="/academy/interview-notes/" aria-current={Astro.url.pathname.startsWith('/academy/interview-notes/')?'page':undefined}>Interview prep</a>
+          <a href="/notes/" aria-current={Astro.url.pathname.startsWith('/notes/')?'page':undefined}>Field notes</a>
+          <a href="/roadmap/" aria-current={Astro.url.pathname==='/roadmap/'?'page':undefined}>Roadmap</a>
         </nav>
-        <a class="header-cta" href="/academy/">Explore Academy <span aria-hidden="true">↗</span></a>
+        <a class="header-cta" href="/academy/">My workspace <span aria-hidden="true">↗</span></a>
       </header>
       <main id="main-content"><slot /></main>
       <footer class="site-footer wrap">
@@ -44,5 +44,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <div class="footer-bottom"><span>© {new Date().getFullYear()} Hexfield</span><span>For authorized learning and research.</span></div>
       </footer>
     </div>
+    <script>import '../scripts/progress';</script>
   </body>
 </html>
